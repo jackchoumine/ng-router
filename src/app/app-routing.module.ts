@@ -2,7 +2,7 @@
  * @Description: 路由模块
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-27 03:30:55 +0800
+ * @LastEditTime: 2020-11-27 04:42:44 +0800
  * @LastEditors: JackChouMine
  */
 import { NgModule } from '@angular/core'
@@ -18,6 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'product/:productName', // NOTE 不能以 / 开头
+    data: {name: 'jack', age: 26},
     component: ProductComponent,
   },
   {
