@@ -12,6 +12,49 @@
 
 ## 路由配置
 
+```html
+<div>
+  <!-- routerLink 的值是一个数组，可传递参数 -->
+  <a [routerLink]="['/']">主页</a>
+  <a [routerLink]="['/product']">商品详情</a>
+  <button (click)="toProduct()">商品详情</button>
+  <router-outlet></router-outlet>
+</div>
+```
 ## 路由导航
 
+## 路由传参
+
+三种传递方式：
+1. 查询字符串
+
+```bash
+path:'/path?id=1'
+ActivatedRoute.queryParams[id]
+```
+
+2. path 变量传参
+
+```bash
+path:'/path/:id' => /path/1
+ActivatedRoute.params[id]
+```
+
+3. 路由对象 data 传递参数
+
+```bash
+  {
+    path: '',
+    data:[{key:value}],# 数组
+    component: HomeComponent,
+  }
+```
+
+组件中获取参数：
+
+```bash
+ActivatedRoute.data
+```
+
 ## 路由守卫
+

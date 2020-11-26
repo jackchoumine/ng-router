@@ -2,13 +2,13 @@
  * @Description:
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-27 02:53:08 +0800
+ * @LastEditTime: 2020-11-27 03:17:41 +0800
  * @LastEditors: JackChouMine
 -->
 <div>
   <!-- routerLink 的值是一个数组，可传递参数 -->
   <a [routerLink]="['/']">主页</a>
-  <a [routerLink]="['/product']">商品详情</a>
+  <a [routerLink]="['/product']" [queryParams]="{id:1}">商品详情</a>
   <button (click)="toProduct()">商品详情</button>
   <router-outlet></router-outlet>
 </div>

@@ -2,7 +2,7 @@
  * @Description: 根组件
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-27 02:59:08 +0800
+ * @LastEditTime: 2020-11-27 03:15:47 +0800
  * @LastEditors: JackChouMine
  */
 import { Component } from '@angular/core'
@@ -21,6 +21,7 @@ export class AppComponent {
   toProduct(): void{
     console.log('去到商品详情')
     this.router.navigate(['/product'])
+    console.log(this.router)
   }
 }
 
