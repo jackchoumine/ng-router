@@ -2,18 +2,21 @@
  * @Description: 根模块
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-27 01:28:50 +0800
+ * @LastEditTime: 2020-11-27 02:24:58 +0800
  * @LastEditors: JackChouMine
  */
-import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
-
+import { BrowserModule } from '@angular/platform-browser'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
+import { HomeComponent } from './home/home.component';
+import { ProductComponent } from './product/product.component'
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,
