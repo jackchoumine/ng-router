@@ -2,7 +2,7 @@
  * @Description: 路由模块
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-27 04:42:44 +0800
+ * @LastEditTime: 2020-11-27 04:50:35 +0800
  * @LastEditors: JackChouMine
  */
 import { NgModule } from '@angular/core'
@@ -14,6 +14,11 @@ import { ProductComponent } from './product/product.component'
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'home',
+    pathMatch: 'full', // 没有，会报错
+  },
+  {
+    path: 'home',
     component: HomeComponent,
   },
   {
