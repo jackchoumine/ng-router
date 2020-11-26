@@ -21,11 +21,13 @@
   <router-outlet></router-outlet>
 </div>
 ```
+
 ## 路由导航
 
 ## 路由传参
 
 三种传递方式：
+
 1. 查询字符串
 
 ```bash
@@ -57,4 +59,3 @@ ActivatedRoute.data
 ```
 
 ## 路由守卫
-
