@@ -2,7 +2,7 @@
  * @Description: 根组件
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-27 03:15:47 +0800
+ * @LastEditTime: 2020-11-27 03:57:36 +0800
  * @LastEditors: JackChouMine
  */
 import { Component } from '@angular/core'
@@ -20,7 +20,7 @@ export class AppComponent {
   }
   toProduct(): void{
     console.log('去到商品详情')
-    this.router.navigate(['/product'])
+    this.router.navigate(['/product', 'macPro', {productId: 2}])// TODO  如何传递其他参数
     console.log(this.router)
   }
 }
