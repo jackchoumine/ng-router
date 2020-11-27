@@ -2,7 +2,7 @@
  * @Description: 路由模块
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-28 00:33:22 +0800
+ * @LastEditTime: 2020-11-28 00:47:36 +0800
  * @LastEditors: JackChouMine
  */
 import { NgModule } from '@angular/core'
@@ -11,6 +11,7 @@ import { ChatComponent } from './chat/chat.component'
 import { ChildAComponent } from './child-a/child-a.component'
 import { ChildBComponent } from './child-b/child-b.component'
 import { LoginGuard } from './guard/login.guard'
+import { UnsavedGuard } from './guard/unsaved.guard'
 import { HomeComponent } from './home/home.component'
 import { NotFoundComponent } from './not-found/not-found.component'
 import { ProductComponent } from './product/product.component'
@@ -35,6 +36,7 @@ const routes: Routes = [
     data: {name: 'jack', age: 26},
     component: ProductComponent,
     canActivate: [LoginGuard], // NOTE 添加路由守卫，可添加多个，只有其中一个守卫返回 false，路由请求被拒绝
+    canDeactivate: [UnsavedGuard],
     children: [
     {
         path: '',
@@ -55,6 +57,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [LoginGuard], // NOTE 在此添加守卫的原因是啥
+  providers: [LoginGuard, UnsavedGuard], // NOTE 在此添加守卫的原因是啥
 })
 export class AppRoutingModule { }

@@ -166,7 +166,7 @@ ActivatedRoute.data
 路由激活前：
 `Resolve`: 在路由激活前获取路由数据。
 离开路由：
-`CanDeactivate`:
+`CanDeactivate`: 只有所有守卫函数都返回 true，才能离开。
 
 只有在用户登录后才能看到产品，可给产品路由添加 `CanActivate` 守卫。
 
