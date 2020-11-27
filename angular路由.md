@@ -70,6 +70,47 @@
 </div>
 ```
 
+## 辅助路由
+
+```ts
+  {
+    path: 'chat',
+    component: ChatComponent,
+    outlet: 'aux', // NOTE 指定路由出口
+  },
+```
+
+根组件的模板：
+
+```html
+<a [routerLink]="[{outlets:{aux:'chat'}}]">开始聊天</a>
+<a [routerLink]="[{outlets:{aux:null}}]">结束聊天</a>
+<div>
+  <router-outlet></router-outlet>
+  <!-- 指定路由出口的名字 -->
+  <router-outlet name="aux"></router-outlet>
+</div>
+```
+
+chat 组件占 30%的宽度：
+
+```scss
+.chat {
+  background-color: lightgreen;
+  height: 400px;
+  width: 30%;
+  float: left;
+  box-sizing: border-box;
+}
+```
+
+点击开始聊天和结束聊天，聊天窗口会显示，而右侧不变。
+如果希望，显示聊天窗口时，右侧回到主页，需要给聊天路径指定基本路径：
+
+```html
+<a [routerLink]="[{outlets:{aux:'chat',primary:'home'}}]">开始聊天</a>
+```
+
 ## 路由导航
 
 ## 路由传参

@@ -13,7 +13,8 @@ import { HomeComponent } from './home/home.component'
 import { ProductComponent } from './product/product.component'
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ChildAComponent } from './child-a/child-a.component';
-import { ChildBComponent } from './child-b/child-b.component'
+import { ChildBComponent } from './child-b/child-b.component';
+import { ChatComponent } from './chat/chat.component'
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ChildBComponent } from './child-b/child-b.component'
     NotFoundComponent,
     ChildAComponent,
     ChildBComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
