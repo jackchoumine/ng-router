@@ -2,15 +2,15 @@
  * @Description:
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-28 00:03:05 +0800
+ * @LastEditTime: 2020-11-28 02:09:40 +0800
  * @LastEditors: JackChouMine
 -->
-<div>
+<div class="app">
   <!-- routerLink 的值是一个数组，可传递参数 -->
-  <a [routerLink]="['/']">主页</a>
-  <a [routerLink]="['/product','iPhoneXR']" [queryParams]="{id:1}">商品详情</a>
-  <button (click)="toProduct()">商品详情</button>
-  <a [routerLink]="[{outlets:{aux:'chat',primary:'home'}}]">开始聊天</a>
+  <a [routerLink]="['/']">主页</a>|
+  <a [routerLink]="['/product','iPhoneXR']" [queryParams]="{id:1}">商品详情</a>|
+  <button (click)="toProduct()">商品详情</button>|
+  <a [routerLink]="[{outlets:{aux:'chat',primary:'home'}}]">开始聊天</a>|
   <a [routerLink]="[{outlets:{aux:null}}]">结束聊天</a>
   <div>
     <router-outlet></router-outlet>
