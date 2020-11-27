@@ -111,6 +111,10 @@ chat 组件占 30%的宽度：
 <a [routerLink]="[{outlets:{aux:'chat',primary:'home'}}]">开始聊天</a>
 ```
 
+<!-- TODO -->
+
+辅助路由传递参数？？
+
 ## 路由导航
 
 ## 路由传参
