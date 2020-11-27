@@ -152,3 +152,54 @@ ActivatedRoute.data
 ```
 
 ## 路由守卫
+
+路由守卫的使用场景：
+
+- 当用户满足某个条件时，才能进入某个路由；
+- 只有在用户在填写完成要求的表单时，才能导航到一下个路由；
+- 填写表单，未进行保存操作，就离开页面，需要提醒用户。
+
+在用户进入或者离开某个路由时可执行的一些函数叫路由守卫。
+
+进入路由前：
+`CanActivate`:
+路由激活前：
+`Resolve`: 在路由激活前获取路由数据。
+离开路由：
+`CanDeactivate`:
+
+只有在用户登录后才能看到产品，可给产品路由添加 `CanActivate` 守卫。
+
+```ts
+import { CanActivate } from "@angular/router";
+export class LoginGuard implements CanActivate {
+  // NOTE ng 会根据返回值是否通过路由请求
+  canActivate(): boolean {
+    const logged: boolean = Math.random() <= 0.5;
+    if (logged) {
+      console.log("用户已经登录");
+    } else {
+      console.log("用户未登录");
+    }
+    return logged;
+  }
+}
+```
+
+```ts
+  {
+    path: 'product/:productName',
+    component: ProductComponent,
+    canActivate: [LoginGuard], // NOTE 添加路由守卫，可添加多个，只有其中一个守卫返回 false，路由请求被拒绝
+  },
+```
+
+把路由守卫添加为供应商：
+
+```ts
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+  providers: [LoginGuard], // NOTE 在此添加守卫的原因是啥
+})
+```
