@@ -162,8 +162,8 @@ ActivatedRoute.data
 在用户进入或者离开某个路由时可执行的一些函数叫路由守卫。
 
 进入路由前：
-`CanActivate`:
-路由激活前：
+`CanActivate`: 只有所有守卫函数都返回 true，才能进入。
+路由解析守卫：
 `Resolve`: 在路由激活前获取路由数据。
 离开路由：
 `CanDeactivate`: 只有所有守卫函数都返回 true，才能离开。
@@ -203,3 +203,82 @@ export class LoginGuard implements CanActivate {
   providers: [LoginGuard], // NOTE 在此添加守卫的原因是啥
 })
 ```
+
+路由解析守卫：
+`Resolve`: 在路由激活前获取路由数据。
+
+```ts
+import { Injectable } from "@angular/core";
+import {
+  ActivatedRouteSnapshot,
+  Resolve,
+  Router,
+  RouterStateSnapshot,
+} from "@angular/router";
+import { Product } from "../model/product";
+
+// NOTE 加上注入修饰符，当在组件类中注入路由时，没有加该修饰符，是因为 Component 装饰器，已经继承了它
+@Injectable()
+export class ProductResolve implements Resolve<Product> {
+  //需要解析的是 Product
+  constructor(private router: Router) {}
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Product | Promise<Product> {
+    const productId: number = route.params.id;
+    if (!productId) {
+      // 判断时正确的 id 向服务器请求数据
+      return new Product(1, "iPhone7");
+    } else {
+      // 数据不正确，跳转
+      this.router.navigate(["/product", "mac"]);
+    }
+  }
+}
+```
+
+给路由配置添加解析守卫
+
+```ts
+ {
+    path: 'home',
+    resolve: {product: ProductResolve},
+    data: {tech: 'angular'},
+    component: HomeComponent,
+  },
+  // 其他代码
+  providers: [ProductResolve]
+```
+
+在`home` 组件中获取路由解析的数据：
+
+```ts
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Product } from "../model/product";
+
+@Component({
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
+})
+export class HomeComponent implements OnInit {
+  productName: string;
+  productId: number;
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.route.data.subscribe((data: { product: Product }) => {
+      console.log(data);
+      console.log(data.product);
+      const { productId, productName } = data.product;
+      this.productId = productId;
+      this.productName = productName;
+    });
+    console.log("home");
+  }
+}
+```
+
+> 如果路由配置了 data 数据，解析的的数据和 data 合并。

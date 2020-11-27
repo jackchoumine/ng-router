@@ -2,7 +2,7 @@
  * @Description: 路由模块
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-28 00:47:36 +0800
+ * @LastEditTime: 2020-11-28 01:38:45 +0800
  * @LastEditors: JackChouMine
  */
 import { NgModule } from '@angular/core'
@@ -11,6 +11,7 @@ import { ChatComponent } from './chat/chat.component'
 import { ChildAComponent } from './child-a/child-a.component'
 import { ChildBComponent } from './child-b/child-b.component'
 import { LoginGuard } from './guard/login.guard'
+import { ProductResolve } from './guard/product.resolve'
 import { UnsavedGuard } from './guard/unsaved.guard'
 import { HomeComponent } from './home/home.component'
 import { NotFoundComponent } from './not-found/not-found.component'
@@ -24,6 +25,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
+    resolve: {product: ProductResolve},
+    data: {tech: 'angular'},
     component: HomeComponent,
   },
   {
@@ -57,6 +60,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [LoginGuard, UnsavedGuard], // NOTE 在此添加守卫的原因是啥
+  providers: [LoginGuard, UnsavedGuard, ProductResolve], // NOTE 在此添加守卫的原因是啥
 })
 export class AppRoutingModule { }
