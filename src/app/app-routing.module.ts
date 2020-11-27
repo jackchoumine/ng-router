@@ -2,11 +2,13 @@
  * @Description: 路由模块
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-27 04:50:35 +0800
+ * @LastEditTime: 2020-11-27 23:07:46 +0800
  * @LastEditors: JackChouMine
  */
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
+import { ChildAComponent } from './child-a/child-a.component'
+import { ChildBComponent } from './child-b/child-b.component'
 import { HomeComponent } from './home/home.component'
 import { NotFoundComponent } from './not-found/not-found.component'
 import { ProductComponent } from './product/product.component'
@@ -25,6 +27,16 @@ const routes: Routes = [
     path: 'product/:productName', // NOTE 不能以 / 开头
     data: {name: 'jack', age: 26},
     component: ProductComponent,
+    children: [
+    {
+        path: '',
+        component: ChildAComponent,
+    },
+    {
+        path: 'child-b/:child-id',
+        component: ChildBComponent,
+    },
+  ],
   },
   {
     path: '**',

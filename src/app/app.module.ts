@@ -11,7 +11,9 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { HomeComponent } from './home/home.component'
 import { ProductComponent } from './product/product.component'
-import { NotFoundComponent } from './not-found/not-found.component'
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ChildAComponent } from './child-a/child-a.component';
+import { ChildBComponent } from './child-b/child-b.component'
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { NotFoundComponent } from './not-found/not-found.component'
     HomeComponent,
     ProductComponent,
     NotFoundComponent,
+    ChildAComponent,
+    ChildBComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,12 +12,60 @@
 
 ## 路由配置
 
+```ts
+[
+  {
+    path: "",
+    redirectTo: "home",
+    pathMatch: "full", // 没有，会报错
+  },
+  {
+    path: "home",
+    component: HomeComponent,
+  },
+  {
+    path: "product/:productName", // NOTE 不能以 / 开头
+    data: { name: "jack", age: 26 },
+    component: ProductComponent, // NOTE 在父路由的组件中提供路由出口
+    children: [
+      {
+        path: "", // NOTE 第一个子路由不设置具体的路径，默认显示它
+        component: ChildAComponent,
+      },
+      {
+        path: "child-b/:child-id",
+        component: ChildBComponent,
+      },
+    ],
+  },
+  {
+    path: "**",
+    component: NotFoundComponent, // NOTE 404 路由，必须放在最后
+  },
+];
+```
+
 ```html
 <div>
   <!-- routerLink 的值是一个数组，可传递参数 -->
   <a [routerLink]="['/']">主页</a>
   <a [routerLink]="['/product']">商品详情</a>
   <button (click)="toProduct()">商品详情</button>
+  <router-outlet></router-outlet>
+</div>
+```
+
+`ProductComponent` 组件的模板:
+
+```html
+<div>
+  <p>product组件</p>
+  <p>商品id：{{productId}}</p>
+  <p>上屏名字：{{productName}}</p>
+  <a [routerLink]="['./']">第一个子路由</a>
+  <a [routerLink]="['./child-b','child-id-333']" [queryParams]="{key:'myKey'}">
+    第二个子路由
+  </a>
   <router-outlet></router-outlet>
 </div>
 ```
