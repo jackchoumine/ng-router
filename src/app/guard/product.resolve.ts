@@ -9,6 +9,7 @@ export class ProductResolve implements Resolve<Product> {
   constructor(private router: Router){}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Product | Promise<Product> {
     const productId: number = route.params.id
+    console.log('路由解析守卫')
     if (!productId) {
       // 判断时正确的 id 向服务器请求数据
       return new Product(1, 'iPhone7')

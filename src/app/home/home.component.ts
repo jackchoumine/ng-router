@@ -2,7 +2,7 @@
  * @Description:
  * @Date: 2020-11-27 01:54:14 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-28 01:44:17 +0800
+ * @LastEditTime: 2020-11-28 01:50:24 +0800
  * @LastEditors: JackChouMine
  */
 import { Component, OnInit } from '@angular/core'
@@ -17,7 +17,9 @@ import { Product } from '../model/product'
 export class HomeComponent implements OnInit {
   productName: string
   productId: number
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {
+    console.log('home 构造函数')
+  }
 
   ngOnInit(): void {
     this.route.data.subscribe((data: {product: Product} ) => {

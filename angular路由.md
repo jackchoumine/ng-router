@@ -207,6 +207,10 @@ export class LoginGuard implements CanActivate {
 路由解析守卫：
 `Resolve`: 在路由激活前获取路由数据。
 
+有时候需要在组件的生命周期 `ngOnInit` 中请求数据，但是数据没有返回，组件上就有空白，这样体验不好，那么可在路由激活之前，就把数据请求到。
+
+那么请求数据的时机，可放在路由解析守卫中，因为其先于组件初始化类执行。
+
 ```ts
 import { Injectable } from "@angular/core";
 import {
