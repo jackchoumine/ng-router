@@ -295,3 +295,9 @@ export class HomeComponent implements OnInit {
 ```
 
 > 如果路由配置了 data 数据，解析的的数据和 data 合并。
+
+## 问题
+
+1. 使用 cli 自动生成代码，如何自定义格式？
+
+比如生成模块，自动导入时，会添加分号，而我的编码规范需要分号。
