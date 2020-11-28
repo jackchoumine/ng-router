@@ -1,0 +1,6 @@
+{
+  "prettier.semi": false,
+  "prettier.useTabs": true,
+  "prettier.printWidth": 140,
+  "editor.renameOnType": true
+}
