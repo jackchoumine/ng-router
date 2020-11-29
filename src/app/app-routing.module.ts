@@ -2,7 +2,7 @@
  * @Description: 路由模块
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-29 23:19:00 +0800
+ * @LastEditTime: 2020-11-29 23:27:12 +0800
  * @LastEditors: JackChouMine
  */
 import { NgModule } from '@angular/core'
@@ -46,10 +46,6 @@ const routes: Routes = [
         component: ChildBComponent,
       },
     ],
-  },
-  {
-    path: 'customers',
-    loadChildren: () => import('./customers/customers.module').then(m => m.CustomersModule),
   },
   {
     path: '**',
