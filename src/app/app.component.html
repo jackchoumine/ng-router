@@ -2,7 +2,7 @@
  * @Description:
  * @Date: 2020-11-27 00:54:02 +0800
  * @Author: JackChouMine
- * @LastEditTime: 2020-11-28 20:01:26 +0800
+ * @LastEditTime: 2020-11-29 20:32:05 +0800
  * @LastEditors: JackChouMine
 -->
 <div class="app">
@@ -12,7 +12,7 @@
   <a [routerLink]="['/product','iPhoneXR']" [queryParams]="{id:1}" routerLinkActive="active">商品详情</a>|
   <button (click)="toProduct()">商品详情</button>|
   <a [routerLink]="[{outlets:{aux:'chat',primary:'home'}}]">开始聊天</a>|
-  <a [routerLink]="[{outlets:{aux:null}}]">结束聊天</a>
+  <button [routerLink]="[{outlets:{aux:null}}]">结束聊天</button>
   <div>
     <router-outlet></router-outlet>
     <!-- 指定路由出口的名字 -->
