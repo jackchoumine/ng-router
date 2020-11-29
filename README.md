@@ -137,7 +137,7 @@ path:'/path?id=1'
 ActivatedRoute.queryParams[id]
 ```
 
-2. path 变量传参
+2. path 变量传参 (动态路由)
 
 ```bash
 path:'/path/:id' => /path/1
@@ -296,8 +296,149 @@ export class HomeComponent implements OnInit {
 
 > 如果路由配置了 data 数据，解析的的数据和 data 合并。
 
+## 惰性加载模块
+
+### angular 默认的模块加载方式的问题
+
+默认的模块方式是急性加载的，即**应用一启动，就立马加载所有模块，不管用户是否立马需要**。单页应用，html 页面只有首页，其他比如 JS、样式资源等都通过打包，然后从首页加载。 应用的所有 JS 代码往往打包进入一个 `main.js` 中，随着应用规模扩大、路由越来越多，main 模块就会变得很大，而 angular 会在应用启动后立马加载 main 模块，即使用户立马用到其中的某些代码。这种方式就会导致首页加载资源很慢。
+
+![默认打包结果](https://tva1.sinaimg.cn/large/0081Kckwgy1gl6fqq7016j311q07fq6i.jpg "默认打包结果")
+
+为了实现按需加载，angular 路由模块提供了惰性加载模块的功能。
+
+### 实现路由惰性加载模块
+
+实现路由惰性加载模式，需要完成一些操作：
+
+- 需要实现惰性加载的模块添加路由模块；
+- 在应用路由中配置惰性加载该模块。
+
+> 给模块添加路由模块
+
+```ts
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { ProductResolve } from "../guard/product.resolve";
+import { HomeComponent } from "./home.component";
+
+const routes: Routes = [
+  {
+    path: "",
+    resolve: { product: ProductResolve },
+    data: { tech: "angular" },
+    component: HomeComponent, // 想要实现 Home 组件惰性加载
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)], // 使用 forChild() 方法，因为不是主模块。
+  providers: [ProductResolve], // NOTE 在此添加守卫的原因是啥
+})
+export class HomeRoutingModule {}
+```
+
+angular 的组件只能属于某个模块，之前 Home 组件属于根组件，现代 Home 组件单独设置了一个路由，就要新建一个模块来容纳 Home 组件，根模块中的 Home 组件应该删除。
+
+从根模块的 declarations 中删除 Home 组件：
+
+```ts
+  declarations: [
+    AppComponent,
+    // HomeComponent, // 从根模块中删除惰性加载的组件
+    ProductComponent,
+    NotFoundComponent,
+    ChildAComponent,
+    ChildBComponent,
+  ],
+```
+
+创建一个 Home 模块来容纳 Home 组件：
+`home.module.ts`
+
+```ts
+import { NgModule } from "@angular/core";
+import { HomeRoutingModule } from "./home-routing.module";
+import { HomeComponent } from "./home.component";
+
+@NgModule({
+  declarations: [HomeComponent],
+  imports: [HomeRoutingModule],
+})
+export class HomeModule {}
+```
+
+> 在根路由模块中配置惰性加载
+
+在根模块的路由配置文件中删除 `component` 属性加载的组件，使用 `loadChildren` 属性代替：
+
+```ts
+  {
+    path: 'home',
+    // loadChildren: './home/home.module#HomeModule', // angular7 之后，这个语法被废弃了
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+  }
+```
+
+不用导入 Home 组件，而是使用 `import` 语法导入需要实现惰性加载的模块，该语法接收一个路径作为参数，返回一个 Promise，该 Promise resolve 一个具有模块属性的对象。
+
+也是使用 await 语法拿到该模块。
+
+```ts
+  {
+    path: 'home',
+    loadChildren: async () => (await import('./home/home.module')).HomeModule, // 注意 await 语法的写法
+  }
+```
+
+> 需要注意的几点：
+
+1. forChild() vs forRoot()
+
+`RouterModule.forRoot(routes)` 添加到 AppRoutingModule 的 imports 数组中，angular 就知道 AppRoutingModule 是一个路由模块，而 forRoot() 表示这是一个根路由模块。 根路由模块配置传入的路由对象、就可在模板中使用路由指令（比如 routerLink）并注册 router。forRoot() 在应用中只应该使用一次，也就是根路由模块中。forRoot() 方法为路由器管理全局性的注入器配置。
+
+`RouterModule.forChild(routes)` 添加到功能模块的路由中，此处是 `HomeRoutingModule`，angular 就知道这个模块只负责提供子路由，可在多个非根路由模块中使用它。forChild() 方法中没有注入器配置，只有像 RouterOutlet 和 RouterLink 这样的指令。
+
+[更新信息](https://angular.cn/guide/singleton-services)
+
+路由指令可用在任何具有点击元事件的元素上：
+
+```html
+<button [routerLink]="[{outlets:{aux:null}}]">结束聊天</button>
+```
+
+`routerLinkActive="active"` 是路由激活时的类名。 2. 非根路由模块的配置
+
+在非根路由模块（功能路由模块）中，可在配置子路由，功能路由模块的路由成为根路由模块的子路由。
+
+表现在地址栏中，根路由的 path 会成为功能路由模块的前置路由。
+
+路由守卫、子路由等功能仍然可用。
+
+3. 模块编译
+
+给特定模块设置了惰性加载，这个模块会单独编译到一个文件中，从而减少了根模块而大小。
+
+![路由惰性加载的结果](https://tva1.sinaimg.cn/large/0081Kckwgy1gl6ft7xkhnj30yo0fq46w.jpg "设置惰性加载")
+
+由两个模块单独打包了，主模块 main 也减小了。
+
+激活开始聊导航，会加载 Chat 模块
+
+![惰性加载模块](https://tva1.sinaimg.cn/large/0081Kckwgy1gl6fxplm83j30za0suacy.jpg "惰性加载模块")
+
+4. 路由配置可在新建项目和新建模块时使用命令行自动生成
+
+```bash
+ng new customer-app --routing # 生成项目，生成了一个名叫 app-routing.module.ts 路由文件
+ng generate module customers --route customers --module app.module # 生成组件、模块、路由，并把模块以惰性加载的方式添加到根路由中
+```
+
 ## 问题
 
 1. 使用 cli 自动生成代码，如何自定义格式？
 
 比如生成模块，自动导入时，会添加分号，而我的编码规范需要分号。
+
+```
+
+```
