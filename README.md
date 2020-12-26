@@ -437,6 +437,6 @@ ng generate module customers --route customers --module app.module # 生成组�
 
 1. 使用 cli 自动生成代码，如何自定义格式？
 
-比如生成模块，自动导入时，会添加分号，而我的编码规范需要分号。
+比如生成模块，自动导入时，会添加分号，而我的编码规范不需要分号。
 
 2. angular 打包的单位是什么?
